@@ -698,7 +698,7 @@ installmenu(){
   fi
   options=()
   options+=("$txteditmirrorlist" "($txtoptional)")
-  options+=("$txtinstallarchlinux" "pacstrap base")
+  options+=("$txtinstallarchlinux" "pacstrap base base-devel lsb-release networkmanager condres-schemas condres-keyring condres-freezedry condres-desktop-setting condres-mirrorlist condres-wallpapers condresassets yaourt trizen")
   options+=("$txtconfigarchlinux" "")
   sel=$(whiptail --backtitle "$apptitle" --title "$txtinstallmenu" --menu "" --cancel-button "$txtunmount" --default-item "$nextitem" 0 0 0 \
     "${options[@]}" \
