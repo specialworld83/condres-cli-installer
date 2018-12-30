@@ -1,4 +1,4 @@
-# condres-installer-cli for to archfi
+# condres-installer-cli fork to archfi
 
 Just a simple bash script wizard to install Condres Linux after you have booted on the official Condres Linux install media.
 
