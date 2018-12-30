@@ -16,7 +16,7 @@
 SCRIPT_DIR="/usr/share/condres-architect"
 TRANSDIR="${SCRIPT_DIR}/lng"
 apptitle="Condres OS Cli Installer - Version: 2018.12.22.00.20.25 (GPLv3)"
-baseurl=https://raw.githubusercontent.com/MatMoul/archfi/master
+baseurl=https://raw.githubusercontent.com/specialworld83/condres-cli-installer/master
 # --------------------------------------------------------
 mainmenu(){
   if [ "$1" = "" ]; then
