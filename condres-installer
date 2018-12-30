@@ -15,7 +15,7 @@
 
 SCRIPT_DIR="/usr/share/condres-architect"
 TRANSDIR="${SCRIPT_DIR}/lng"
-apptitle="Condres OS Cli Installer - Version: 2018.12.22.00.20.25 (GPLv3)"
+apptitle="Condres OS Cli Installer - Expert user "
 baseurl=https://raw.githubusercontent.com/specialworld83/condres-cli-installer/master
 # --------------------------------------------------------
 mainmenu(){
@@ -774,7 +774,6 @@ archmenu(){
   options+=("${txtedit//%1/grub}" "($txtoptional)")
   options+=("${txtinstall//%1/bootloader}" "grub-install")
   options+=("${txtenable//%1/dhcpcd}" "systemctl enable dhcpd")
-  options+=("archdi" "$txtarchdidesc")
   sel=$(whiptail --backtitle "$apptitle" --title "$txtarchinstallmenu" --menu "" --cancel-button "$txtback" --default-item "$nextitem" 0 0 0 \
     "${options[@]}" \
     3>&1 1>&2 2>&3)
@@ -863,11 +862,6 @@ archmenu(){
       ;;
       "${txtenable//%1/dhcpcd}")
         archenabledhcpcd
-        nextitem="archdi"
-      ;;
-      "archdi")
-        installarchdi
-        nextitem="archdi"
       ;;
     esac
     archmenu "$nextitem"
@@ -1189,76 +1183,6 @@ archenabledhcpcdchroot(){
   exit
 }
 
-installarchdi(){
-  txtinstallarchdi="Condres  Linux Desktop Install (archdi) is a second script who can help you to install a full workstation.\n\nYou can just launch the script or install it. Choose in the next menu.\n\nCondres  Linux Desktop Install as two dependencies : wget and libnewt.\n\npacstrap wget libnewt ?"
-  if(whiptail --backtitle "$apptitle" --title "archdi" --yesno "$txtinstallarchdi" 0 0) then
-    clear
-    echo "pacstrap /mnt wget libnewt"
-    pacstrap /mnt wget libnewt
-  fi
-  if [ "$?" = "0" ]; then
-    options=()
-    options+=("$txtarchdiinstallandlaunch" "")
-    options+=("$txtarchdilaunch" "")
-    options+=("$txtarchdiinstall" "")
-    sel=$(whiptail --backtitle "$apptitle" --title "$txtarchdimenu" --menu "" --cancel-button "$txtback" 0 0 0 \
-      "${options[@]}" \
-      3>&1 1>&2 2>&3)
-    if [ "$?" = "0" ]; then
-      case $sel in
-        "$txtarchdiinstallandlaunch") archchroot archdiinstallandlaunch;;
-        "$txtarchdilaunch") archchroot archdilaunch;;
-        "$txtarchdiinstall")
-          clear
-          archchroot archdiinstall
-          pressanykey
-        ;;
-      esac
-    fi
-  fi
-}
-archdidownload(){
-  txtselectserver="Select source server :"
-  txtback="Back"
-  options=()
-  options+=("sourceforge.net" "recommended")
-  options+=("github.com" "")
-  sel=$(whiptail --backtitle "$apptitle" --title "$txtselectserver" --menu "" --cancel-button "$txtback" 0 0 0 \
-    "${options[@]}" \
-    3>&1 1>&2 2>&3)
-  if [ "$?" = "0" ]; then
-    case $sel in
-      "sourceforge.net")
-        archdiurl=archdi.sourceforge.net/archdi
-      ;;
-      "github.com")
-        archdiurl=matmoul.github.io/archdi >archdi
-      ;;
-    esac
-  fi
-  echo "curl -L $archdiurl >archdi"
-  curl -L $archdiurl >archdi
-}
-archdiinstallandlaunchchroot(){
-  cd
-  archdidownload
-  sh archdi -i
-  archdi --chroot
-  exit
-}
-archdilaunchchroot(){
-  cd
-  archdidownload
-  sh archdi --chroot
-  rm archdi
-  exit
-}
-archdiinstallchroot(){
-  cd
-  archdidownload
-  sh archdi -i
-  exit
-}
 # --------------------------------------------------------
 
 
@@ -1350,11 +1274,7 @@ loadstrings(){
   txtinstallosprober="os-prober is a good solution if you want to use mutli-boot.\nInstall os-prober ?"
   txtefibootmgr="efibootmgr is required for EFI computers."
   
-  txtarchdidesc="Full desktop install script"
-  txtinstallarchdi="Condres  Linux Desktop Install (archdi) is a second script who can help you to install a full workstation.\n\nYou can just launch the script or install it. Choose in the next menu.\n\nCondres  Linux Desktop Install as two dependencies : wget and libnewt.\n\npacstrap wget libnewt ?"
-  txtarchdiinstallandlaunch="Install and run archdi"
-  txtarchdiinstall="Install archdi"
-  txtarchdilaunch="Launch archdi"
+  
 }
 
 # --------------------------------------------------------
@@ -1385,9 +1305,7 @@ if [ "$chroot" = "1" ]; then
     'installbootloader') archinstallbootloaderchroot $args;;
     'installbootloaderefi') archinstallbootloaderefichroot $args;;
     'installbootloaderefiusb') archinstallbootloaderefiusbchroot $args;;
-    'archdiinstallandlaunch') archdiinstallandlaunchchroot;;
-    'archdiinstall') archdiinstallchroot;;
-    'archdilaunch') archdilaunchchroot;;
+
   esac
 else
   pacman -S --needed arch-install-scripts wget libnewt
