@@ -727,13 +727,7 @@ installmenu(){
 installbase(){
   clear
   echo "Install Condres OS base system"
-  pacstrap /mnt base base-devel lsb-release networkmanager condres-schemas condres-keyring condres-freezedry condres-desktop-setting condres-mirrorlist condres-wallpapers condresassets yaourt trizen btrfs-progs pacman-condres dosfstools efitools xorg-server-common plymouth plymouth-theme-condres xf86-video-ati xf86-video-dummy xf86-video-fbdev xf86-video-intel xf86-video-nouveau xf86-video-openchrome xf86-video-sisusb xf86-video-vesa xf86-video-vmware xf86-video-voodoo xorg-fonts xorg-server xorg-xinit xorg-xkill lsb-release 
- pacman-key /mnt --init archlinux
- pacman-key /mnt --populate archlinux
- pacman-key /mnt --init
- pacman-key /mnt --init condres
- pacman-key /mnt --populate condres
- pacman-key /mnt --populate
+  pacstrap /mnt base base-devel lsb-release networkmanager condres-schemas condres-keyring condres-freezedry condres-desktop-settings condres-mirrorlist condres-wallpapers condresassets yaourt trizen btrfs-progs pacman-condres dosfstools efitools xorg-server-common plymouth plymouth-theme-condres xf86-video-ati xf86-video-dummy xf86-video-fbdev xf86-video-intel xf86-video-nouveau xf86-video-openchrome xf86-video-sisusb xf86-video-vesa xf86-video-vmware xf86-video-voodoo xorg-fonts xorg-server xorg-xinit xorg-xkill lsb-release 
   pressanykey
 }
 
