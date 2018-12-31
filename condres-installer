@@ -15,7 +15,7 @@
 
 SCRIPT_DIR="/usr/share/condres-architect"
 TRANSDIR="${SCRIPT_DIR}/lng"
-apptitle="Condres OS Cli Installer - Expert user "
+apptitle="Condres OS Cli Installer - Expert user - No desktop"
 baseurl=https://raw.githubusercontent.com/specialworld83/condres-cli-installer/master
 # --------------------------------------------------------
 mainmenu(){
@@ -698,7 +698,7 @@ installmenu(){
   fi
   options=()
   options+=("$txteditmirrorlist" "($txtoptional)")
-  options+=("$txtinstallarchlinux" "pacstrap base base-devel lsb-release networkmanager condres-schemas condres-keyring condres-freezedry condres-desktop-setting condres-mirrorlist condres-wallpapers condresassets yaourt trizen")
+  options+=("$txtinstallarchlinux" "pacstrap base")
   options+=("$txtconfigarchlinux" "")
   sel=$(whiptail --backtitle "$apptitle" --title "$txtinstallmenu" --menu "" --cancel-button "$txtunmount" --default-item "$nextitem" 0 0 0 \
     "${options[@]}" \
@@ -726,8 +726,14 @@ installmenu(){
 
 installbase(){
   clear
-  echo "pacstrap /mnt base"
-  pacstrap /mnt base
+  echo "Install Condres OS base system"
+  pacstrap /mnt base base-devel lsb-release networkmanager condres-schemas condres-keyring condres-freezedry condres-desktop-setting condres-mirrorlist condres-wallpapers condresassets yaourt trizen btrfs-progs pacman-condres dosfstools efitools xorg-server-common plymouth plymouth-theme-condres xf86-video-ati xf86-video-dummy xf86-video-fbdev xf86-video-intel xf86-video-nouveau xf86-video-openchrome xf86-video-sisusb xf86-video-vesa xf86-video-vmware xf86-video-voodoo xorg-fonts xorg-server xorg-xinit xorg-xkill lsb-release 
+ pacman-key /mnt --init archlinux
+ pacman-key /mnt --populate archlinux
+ pacman-key /mnt --init
+ pacman-key /mnt --init condres
+ pacman-key /mnt --populate condres
+ pacman-key /mnt --populate
   pressanykey
 }
 
@@ -879,7 +885,7 @@ archchroot(){
 
 
 archsethostname(){
-  hostname=$(whiptail --backtitle "$apptitle" --title "$txtsethostname" --inputbox "" 0 0 "archlinux" 3>&1 1>&2 2>&3)
+  hostname=$(whiptail --backtitle "$apptitle" --title "$txtsethostname" --inputbox "" 0 0 "condresos" 3>&1 1>&2 2>&3)
   if [ "$?" = "0" ]; then
     clear
     echo "echo \"$hostname\" > /mnt/etc/hostname"
